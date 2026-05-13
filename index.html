@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMK Negeri 14 Samarinda - BerTAKWA & Kompeten</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'logo-blue': '#87CEEB',
+                        'logo-yellow': '#FFFF00',
+                        'logo-green': '#008000',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        };
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+          body { @apply transition-colors duration-500; }
+        }
+
+        @layer components {
+            .nav-link.active { @apply border-b-4 border-logo-yellow text-slate-900 dark:text-logo-yellow; }
+            .page-transition { @apply transition-opacity duration-300; }
+            .hidden-page { @apply hidden opacity-0; }
+            .active-page { @apply block opacity-100; }
+            .mission-card { @apply transition-all duration-300 hover:translate-x-2 border-l-4 border-transparent; }
+            .mission-card:hover { @apply border-logo-green dark:border-logo-yellow bg-slate-50 dark:bg-slate-800; }
+            
+            /* Slider Animations */
+            .slider-image { @apply absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0; }
+            .slider-image.active { @apply opacity-100; }
+        }
+
+        @keyframes pulse-yellow {
+            0%, 100!% { transform: scale(1); }
+            50% { transform: scale(1.05); color: #FFFF00; }
+        }
+        .jargon-anim { animation: pulse-yellow 2s infinite; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans overflow-x-hidden">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-logo-blue dark:bg-slate-900 shadow-lg border-b-4 border-logo-yellow transition-colors duration-500">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="flex items-center -space-x-1">
+                    <img src="logo kaltim.png" alt="Logo Kaltim" class="h-10 w-auto drop-shadow-md z-10" onerror="this.src='https://placehold.co/40x40?text=Kaltim'">
+                    <img src="logo sekolah_2.png" alt="Logo SMKN 14" class="h-12 w-auto drop-shadow-md" onerror="this.src='https://placehold.co/50x50/87CEEB/ffffff?text=14'">
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg md:text-xl leading-none text-slate-900 dark:text-white uppercase">SMKN 14 Samarinda</h1>
+                    <p class="text-[9px] md:text-[10px] font-bold text-logo-green dark:text-logo-yellow uppercase tracking-widest">Penyangga IKN • Akreditasi B</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <ul class="hidden md:flex space-x-6 font-semibold">
+                    <li><a href="#" onclick="navigateTo('home')" class="nav-link active px-2 py-1 transition hover:text-white dark:text-slate-300" id="nav-home">Beranda</a></li>
+                    <li><a href="#" onclick="navigateTo('jurusan')" class="nav-link px-2 py-1 transition hover:text-white dark:text-slate-300" id="nav-jurusan">Jurusan</a></li>
+                    <li><a href="#" onclick="navigateTo('berita')" class="nav-link px-2 py-1 transition hover:text-white dark:text-slate-300" id="nav-berita">Berita</a></li>
+                    <li><a href="#" onclick="navigateTo('album')" class="nav-link px-2 py-1 transition hover:text-white dark:text-slate-300" id="nav-album">Album</a></li>
+                    <li><a href="#" onclick="navigateTo('denah')" class="nav-link px-2 py-1 transition hover:text-white dark:text-slate-300" id="nav-denah">Denah & Lokasi</a></li>
+                </ul>
+
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-white/20 dark:bg-slate-800 flex items-center justify-center border border-white/30 hover:scale-110 transition-all text-slate-900 dark:text-yellow-400 shadow-md">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+
+                <button class="md:hidden text-2xl text-slate-900 dark:text-white" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-logo-blue dark:bg-slate-800 border-t border-white/20 p-4 text-center">
+            <ul class="space-y-4 font-semibold uppercase text-sm text-slate-900 dark:text-white">
+                <li><a href="#" onclick="navigateTo('home')" class="block py-2">Beranda</a></li>
+                <li><a href="#" onclick="navigateTo('jurusan')" class="block py-2">Jurusan</a></li>
+                <li><a href="#" onclick="navigateTo('berita')" class="block py-2">Berita</a></li>
+                <li><a href="#" onclick="navigateTo('album')" class="block py-2">Album</a></li>
+                <li><a href="#" onclick="navigateTo('denah')" class="block py-2">Denah & Lokasi</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- HALAMAN: BERANDA -->
+        <section id="page-home" class="page-transition active-page">
+            <!-- Hero dengan Slider Latar Belakang -->
+            <div class="relative min-h-[550px] md:min-h-[700px] flex items-center justify-center text-white text-center px-4 overflow-hidden">
+                <div id="hero-slider" class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070" class="slider-image active" alt="Slider 1">
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070" class="slider-image" alt="Slider 2">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070" class="slider-image" alt="Slider 3">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070" class="slider-image" alt="Slider 4">
+                    <div class="absolute inset-0 bg-black/50 dark:bg-black/70 transition-colors duration-700"></div>
+                </div>
+
+                <div class="relative z-10 max-w-5xl">
+                    <div class="mb-6 inline-block px-6 py-2 bg-logo-green/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full border border-white/20 jargon-anim">
+                        <p class="text-xs md:text-base font-black tracking-[0.2em] md:tracking-[0.3em]">PAGI, PAGI, PAGI! LUAR BIASA! JAYA!</p>
+                    </div>
+                    <h2 class="text-xl md:text-4xl font-bold mb-2 drop-shadow-lg tracking-tight uppercase">SMK Pusat Keunggulan</h2>
+                    <h3 class="text-3xl md:text-7xl font-black mb-8 text-logo-yellow drop-shadow-xl">SMKN 14 SAMARINDA</h3>
+                    
+                    <div class="bg-black/40 backdrop-blur-md p-6 md:p-8 rounded-[30px] md:rounded-[40px] border border-white/20 inline-block shadow-2xl">
+                        <h4 class="text-2xl md:text-5xl font-black mb-6 tracking-[0.15em] md:tracking-[0.25em] text-white italic">" <span class="text-logo-yellow">Ber</span>TAKWA "</h4>
+                        <div class="grid grid-cols-5 gap-2 md:gap-8">
+                            <div class="flex flex-col items-center"><span class="bg-logo-yellow text-slate-900 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-xl font-black mb-2 shadow-lg">B</span><span class="text-[8px] md:text-sm font-bold uppercase">eriman</span></div>
+                            <div class="flex flex-col items-center"><span class="bg-logo-yellow text-slate-900 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-xl font-black mb-2 shadow-lg">T</span><span class="text-[8px] md:text-sm font-bold uppercase">anggung</span></div>
+                            <div class="flex flex-col items-center"><span class="bg-logo-yellow text-slate-900 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-xl font-black mb-2 shadow-lg">A</span><span class="text-[8px] md:text-sm font-bold uppercase">adaptif</span></div>
+                            <div class="flex flex-col items-center"><span class="bg-logo-yellow text-slate-900 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-xl font-black mb-2 shadow-lg">K</span><span class="text-[8px] md:text-sm font-bold uppercase">olaboratif</span></div>
+                            <div class="flex flex-col items-center"><span class="bg-logo-yellow text-slate-900 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm md:text-xl font-black mb-2 shadow-lg">WA</span><span class="text-[8px] md:text-sm font-bold uppercase">irausaha</span></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-center space-x-3">
+                        <div class="slider-dot w-3 h-3 rounded-full bg-white transition-all cursor-pointer border border-black/20" onclick="setSlide(0)"></div>
+                        <div class="slider-dot w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer border border-black/20" onclick="setSlide(1)"></div>
+                        <div class="slider-dot w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer border border-black/20" onclick="setSlide(2)"></div>
+                        <div class="slider-dot w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer border border-black/20" onclick="setSlide(3)"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian Visi & Misi -->
+            <div class="container mx-auto px-4 py-16 md:py-20">
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <div class="lg:col-span-1">
+                        <div class="lg:sticky lg:top-32">
+                            <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 mb-6 flex items-center">
+                                <span class="w-12 h-2 bg-logo-yellow mr-4 rounded-full"></span> VISI
+                            </h2>
+                            <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border-t-8 border-logo-blue dark:border-logo-yellow italic text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed transition-colors duration-500">
+                                "Berkarakter profil pelajar Pancasila, kompeten, serta mampu mengisi peluang di wilayah penyangga IKN."
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 mb-6 flex items-center">
+                            <span class="w-12 h-2 bg-logo-green mr-4 rounded-full"></span> MISI
+                        </h2>
+                        <div class="grid gap-3">
+                            <!-- Misi SMK Negeri 14 Samarinda -->
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">a</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan program pembinaan karakter profil pelajar Pancasila (Beriman dan bertaqwa kepada Tuhan YME, mandiri, kreatif, berkebhinekaan global, gotong royong dan bernalar kritis) melalui kegiatan intrakurikuler, kokurikuler dan ekstrakurikuler.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">b</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan pembelajaran yang berpihak pada murid dan menyenangkan.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">c</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Mewujudkan lingkungan belajar yang ramah anak.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">d</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan kerjasama dengan IDUKA dalam pembelajaran berbasis Industry/factory learning dan program sekolah pusat keunggulan.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">e</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Mengembangkan sistem informasi manajemen sekolah berbasis teknologi.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">f</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Meningkatkan kompetensi pendidik dan tenaga kependidikan.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">g</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Mengoptimalkan peran Bursa Kerja Khusus dalam memberikan informasi terkait prospek kerja IKN.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">h</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan sertifikasi kompetensi murid yang sesuai dengan KKNI.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">i</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan pembelajaran berbasis project.</p>
+                            </div>
+                            <div class="mission-card bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex gap-4 items-center">
+                                <div class="bg-logo-blue dark:bg-slate-800 text-white dark:text-logo-yellow w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0">j</div>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm">Menyelenggarakan pembelajaran kewirausahaan dengan menghadirkan pelaku usaha.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: JURUSAN -->
+        <section id="page-jurusan" class="page-transition hidden-page container mx-auto px-4 py-16">
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-12 text-center uppercase">Konsentrasi Keahlian</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1. TJKT -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-logo-blue dark:bg-slate-800 flex items-center justify-center text-white transition-colors"><i class="fas fa-network-wired text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-logo-blue dark:text-logo-yellow uppercase">TJKT</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Teknik Jaringan Komputer dan Telekomunikasi</p></div>
+                </div>
+                <!-- 2. DKV -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-purple-600 dark:bg-purple-900 flex items-center justify-center text-white"><i class="fas fa-palette text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-purple-600 dark:text-purple-400 uppercase">DKV</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Desain komunikasi visual</p></div>
+                </div>
+                <!-- 3. AKL -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-emerald-600 dark:bg-emerald-900 flex items-center justify-center text-white"><i class="fas fa-calculator text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-emerald-600 dark:text-emerald-400 uppercase">AKL</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Akuntansi dan Keuangan Lembaga</p></div>
+                </div>
+                <!-- 4. PM -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-blue-700 dark:bg-blue-900 flex items-center justify-center text-white"><i class="fas fa-store text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-blue-700 dark:text-blue-400 uppercase">PM</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Pemasaran</p></div>
+                </div>
+                <!-- 5. MPLB -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-red-600 dark:bg-red-900 flex items-center justify-center text-white"><i class="fas fa-briefcase text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-red-600 dark:text-red-400 uppercase">MPLB</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Manajemen Perkantoran dan Layanan Bisnis</p></div>
+                </div>
+                <!-- 6. DPB -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-800 group hover:scale-105 transition-all duration-300">
+                    <div class="h-40 bg-pink-600 dark:bg-pink-900 flex items-center justify-center text-white"><i class="fas fa-cut text-5xl"></i></div>
+                    <div class="p-8 text-center"><h4 class="font-bold text-xl mb-3 text-pink-600 dark:text-pink-400 uppercase">DPB</h4><p class="text-slate-600 dark:text-slate-400 text-sm font-semibold">Desain Produksi Busana</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: BERITA -->
+        <section id="page-berita" class="page-transition hidden-page container mx-auto px-4 py-16">
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-12 text-center uppercase">Berita & Informasi</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white dark:bg-slate-900 rounded-[30px] shadow-xl overflow-hidden border-t-8 border-logo-yellow transition-all">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="px-4 py-1 bg-logo-green text-white text-[10px] font-bold rounded-full uppercase">PENTING</span>
+                            <span class="text-xs text-slate-400">13 Mei 2026</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-800 dark:text-white mb-4">Pendaftaran Peserta Didik Baru (PPDB) 2026/2027</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">Informasi resmi pendaftaran siswa baru akan segera dibuka melalui portal website ini. Persiapkan berkas seperti KK, Akta Kelahiran, dan Raport.</p>
+                        <button class="w-full py-4 bg-slate-900 dark:bg-logo-yellow text-white dark:text-slate-900 font-black rounded-2xl uppercase text-xs">Pantau Terus!</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: ALBUM -->
+        <section id="page-album" class="page-transition hidden-page container mx-auto px-4 py-16">
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-12 text-center uppercase">Galeri Aktivitas</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white dark:bg-slate-900 rounded-[30px] shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800">
+                    <div class="h-60 bg-slate-900 relative">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87" class="w-full h-full object-cover" alt="Antartika">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-6 flex flex-col justify-end">
+                            <h4 class="text-white font-bold text-xl uppercase">Antartika Vol 2</h4>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <a href="https://www.instagram.com/p/DXyMcnckw2i/" target="_blank" class="block w-full text-center py-2 bg-slate-900 text-white text-[10px] font-bold rounded-xl uppercase">Cek Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: DENAH -->
+        <section id="page-denah" class="page-transition hidden-page container mx-auto px-4 py-16">
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-12 text-center uppercase">Denah Ruangan & Lokasi</h2>
+            
+            <div class="mb-12 bg-white dark:bg-slate-900 p-8 rounded-[40px] shadow-xl border-4 border-logo-blue">
+                <h3 class="text-xl font-bold mb-6 text-center text-slate-800 dark:text-white uppercase tracking-wider">Peta Gedung (Skema Pesantren Ramadhan 1447 H)</h3>
+                <div class="relative overflow-x-auto">
+                    <div class="min-w-[800px] border-2 border-slate-300 dark:border-slate-700 p-4 rounded-xl grid grid-cols-6 gap-4">
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> UMMU SALAMAH
+                        </div>
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> HAFSHAH BINTI UMAR
+                        </div>
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> FATIMAH AZ-ZAHRA
+                        </div>
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> SAUDAH BINTI ZAM'AH
+                        </div>
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> AISYAH ASH-SHIDDIQAH
+                        </div>
+                        <div class="bg-logo-blue/20 p-4 rounded border border-dashed border-logo-blue text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            <i class="fas fa-book mb-1"></i> UMMU AIMAN
+                        </div>
+
+                        <div class="col-span-6 h-32 bg-logo-green/20 flex items-center justify-center rounded-xl border-2 border-logo-green my-4 relative">
+                            <span class="font-black text-logo-green/40 text-4xl uppercase tracking-widest">LAPANGAN UTAMA</span>
+                            <div class="absolute bottom-2 right-2 px-3 py-1 bg-white/50 rounded text-[10px] font-bold">PANGGUNG UTAMA</div>
+                        </div>
+
+                        <div class="bg-logo-yellow/20 p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-black">
+                            KANTOR AKL
+                        </div>
+                        <div class="bg-slate-200 dark:bg-slate-800 p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            RPS DKV
+                        </div>
+                        <div class="bg-slate-200 dark:bg-slate-800 p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            RPS TKJ
+                        </div>
+                        <div class="bg-slate-200 dark:bg-slate-800 p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            PERPUSTAKAAN
+                        </div>
+                        <div class="bg-slate-200 dark:bg-slate-800 p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-bold">
+                            BK & UKS
+                        </div>
+                        <div class="bg-slate-900 text-white p-4 rounded border border-slate-400 text-center text-[10px] flex flex-col items-center justify-center font-black">
+                            POS PIKET
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-4 text-[10px] text-slate-500 italic text-center">*Denah skematik berdasarkan plot ruangan Pesantren Ramadhan 1447 H.</p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 p-4 rounded-[40px] shadow-2xl h-[450px]">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.6582315053155!2d117.09886367571343!3d-0.513264635336058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67e2315b49747%3A0x67399994c969315d!2sSMK%20Negeri%2014%20Samarinda!5e0!3m2!1sid!2sid!4v1715606622437" class="w-full h-full rounded-[30px]" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 dark:bg-black text-white py-12 border-t-4 border-logo-yellow">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center items-center space-x-3 mb-6">
+                <img src="logo kaltim.png" alt="Logo Kaltim" class="h-10">
+                <img src="logo sekolah_2.png" alt="Logo Sekolah" class="h-12">
+                <h2 class="font-black text-lg uppercase">SMKN 14 Samarinda</h2>
+            </div>
+            <p class="text-slate-500 text-[10px] uppercase font-bold tracking-[0.2em]">&copy; 2026 SMK NEGERI 14 SAMARINDA.</p>
+        </div>
+    </footer>
+
+    <script>
+        // NAVIGASI
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-transition').forEach(p => { p.classList.add('hidden-page'); p.classList.remove('active-page'); });
+            const target = document.getElementById('page-' + pageId);
+            if(target) { target.classList.remove('hidden-page'); target.classList.add('active-page'); window.scrollTo({top:0, behavior:'smooth'}); }
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const activeLink = document.getElementById('nav-' + pageId);
+            if(activeLink) activeLink.classList.add('active');
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+
+        // LOGIKA TEMA
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            html.classList.toggle('light', !isDark);
+            const icon = document.getElementById('theme-icon');
+            icon.classList.replace(isDark ? 'fa-moon' : 'fa-sun', isDark ? 'fa-sun' : 'fa-moon');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // LOGIKA SLIDER
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-image');
+        const dots = document.querySelectorAll('.slider-dot');
+
+        function setSlide(index) {
+            slides.forEach((s, i) => {
+                s.classList.remove('active');
+                dots[i].classList.replace('bg-white', 'bg-white/40');
+                dots[i].classList.remove('w-8');
+                dots[i].classList.add('w-3');
+            });
+            
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.replace('bg-white/40', 'bg-white');
+            dots[currentSlide].classList.replace('w-3', 'w-8');
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            setSlide(next);
+        }
+
+        setInterval(nextSlide, 5000);
+
+        // INISIALISASI
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.add(savedTheme);
+            const icon = document.getElementById('theme-icon');
+            if(savedTheme === 'dark') icon.classList.replace('fa-moon', 'fa-sun');
+            dots[0].classList.replace('w-3', 'w-8');
+        }
+    </script>
+</body>
+</html>
